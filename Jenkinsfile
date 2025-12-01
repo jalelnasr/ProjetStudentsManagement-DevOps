@@ -1,21 +1,47 @@
 pipeline {
     agent any
+
+    tools {
+        maven 'M2_HOME'
+    }
+
     stages {
-        stage('Hello') {
+
+        stage('Exemple 1 - Hello World') {
             steps {
-                echo 'Hello World !'
+                echo "Hello world !"
             }
         }
-        stage('Clone Git Repository') {
+
+        stage('Git Clone') {
             steps {
-                git 'https://github.com/Leilaabendhief/ProjetStudentsManagement-DevOps.git'
+                git branch: 'main', url: 'https://github.com/jalelnasr/ProjetStudentsManagement-DevOps.git'
             }
         }
-        stage('Build Maven') {
+
+        stage('Maven Build') {
             steps {
-                sh 'chmod +x mvnw'
-                sh './mvnw clean package -DskipTests'
+                sh 'mvn -version'
             }
         }
+        stage('Clean') {
+                    steps {
+                        sh 'mvn clean'
+                    }
+                }
+                stage('Compile') {
+                            steps {
+                                sh 'mvn compile'
+                            }
+                        }
+                        stage('Sonar Analysis') {
+                            environment {
+                                SONAR_TOKEN = credentials('sonar-token')
+                            }
+                            steps {
+                                sh 'mvn sonar:sonar'
+                            }
+                        }
+
     }
 }
