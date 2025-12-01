@@ -15,7 +15,7 @@ pipeline {
 
         stage('Git Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/jalelnasr/ProjetStudentsManagement-DevOps.git'
+                git branch: 'master', url: 'https://github.com/jalelnasr/ProjetStudentsManagement-DevOps.git'
             }
         }
 
